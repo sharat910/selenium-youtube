@@ -69,6 +69,7 @@ class YouTube(object):
         for i in range(RETRY_LIMIT):
             try:
                 self.driver.get(self.url)
+                time.sleep(0.3)
                 movie_player = self.driver.find_element_by_id('movie_player')
                 self.hover = ActionChains(self.driver).move_to_element(movie_player)
             except Exception as e:
