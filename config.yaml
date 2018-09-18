@@ -5,7 +5,7 @@ resolutions: ['360p','480p','720p HD','1080p HD']
 
 driver:
   hub_url: 'http://localhost:4444/wd/hub'
-  type: 'local' #local or remote (browser in a container)
+  type: 'remote' #local or remote (browser in a container)
   browser: 'chrome'
   adblock:
     enable: false
@@ -13,12 +13,12 @@ driver:
 
 youtube:
   number_of_data_points: 10 #Collected every half a second
-  agent: 'firefox'
+  agent: 'chrome'
   content_type: 'video'
-  content_provider: 'youtube/1vid_test_multi_res'
+  content_provider: 'youtube/docker-test'
 
 flowfetch:
-  enable: false
+  enable: true
   start_url: "http://localhost:8080/start"
   stop_url: "http://localhost:8080/stop"
   video_stat_url: "http://localhost:8080/video_stat"

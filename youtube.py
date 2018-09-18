@@ -33,11 +33,8 @@ class YouTube(object):
             try:
                 if i != 0:
                     print("Trying again...")
-                if self.config['agent'] == 'firefox':
-                    sb = self.driver.find_element_by_css_selector('.ytp-button.ytp-settings-button')
-                else:
-                    time.sleep(0.2)
-                    sb = self.driver.find_element_by_class_name('ytp-button ytp-settings-button')
+                time.sleep(0.2)
+                sb = self.driver.find_element_by_css_selector('.ytp-button.ytp-settings-button')
                 sb.click()
                 time.sleep(0.3)
                 elem = self.driver.find_element_by_css_selector('div.ytp-menuitem:nth-child(5) > div:nth-child(1)')
@@ -45,7 +42,7 @@ class YouTube(object):
                 break
             except Exception as e:
                 print("Resolution selection got error",e)
-                if i == 2:
+                if i == RETRY_LIMIT-1:
                     print("Failed to select resolution. Skipping video...")
                     # self.stop()
                     # self.play()
@@ -77,7 +74,7 @@ class YouTube(object):
             except Exception as e:
                 print("Encountered error while loading url...")
                 print(e)
-                if i == 2:
+                if i == RETRY_LIMIT - 1:
                     print("Failed to load url. Skipping video...")
                     # self.stop()
                     # self.play()

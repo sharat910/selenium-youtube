@@ -13,7 +13,7 @@ class FFInteractor(object):
             self.started = True
 
     def stop(self,success):
-        print("Stopping Flowfetch with",success)
+        print("Success: ",success)
         if self.config['enable'] and self.started:
             url = self.config['stop_url']
             requests.post(url,json={'success':success})
