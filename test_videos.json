@@ -1,0 +1,128 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=nFVjLSvK5po",
+    "title": "Stephanie Kim - How to be a 10x Data Scientist",
+    "length": "42:01",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=hjW4gL9hioY",
+    "title": "Bryan Van De Ven - How to Create Interactive Browser Visualizations from Python with Bokeh",
+    "length": "55:22",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=BRn6UCw35og",
+    "title": "Top to down, left to right (Surprise talk) - James Powell",
+    "length": "43:49",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=KHGGlozsRtA",
+    "title": "Soledad Galli - Machine Learning in Financial Credit Risk Assessment",
+    "length": "38:53",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=gSA_pSQod-s",
+    "title": "Sumit Kumar - In database Machine Learning with Python in SQL Server",
+    "length": "37:29",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=LlzVlqVzeD8",
+    "title": "Thomas Wiecki - Probablistic Programming Data Science with PyMC3",
+    "length": "39:15",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=EgE0DUrYmo8",
+    "title": "Maciej Kula - Hybrid Recommender Systems in Python",
+    "length": "34:41",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=gx6oHqpRgpY",
+    "title": "Implementing and Training Predictive Customer Lifetime Value Models in Python",
+    "length": "36:26",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=5CWwwtEM2TA",
+    "title": "Can one do better than XGBoost? - Mateusz Susik",
+    "length": "23:47",
+    "resolutions": [
+      "1080p HD",
+      "720p HD",
+      "480p",
+      "360p",
+      "240p",
+      "144p",
+      "Auto"
+    ]
+  }
+]
