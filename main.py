@@ -32,6 +32,7 @@ def play_one_video_all_resolutions(video):
         time.sleep(2)
 
 if __name__ == '__main__':
+    time.sleep(5)
     config = get_config()
     videos = get_video_list_json(config)
     n = min(len(videos),config['no_of_videos'])
