@@ -28,6 +28,11 @@ class YouTube(object):
         return self.url.split("=")[1]
 
     def select_resolution(self):
+        # Don't bother selecting resolution for Auto
+        if self.resolution == 'Auto':
+            print("Playing in Auto resolution.")
+            return True
+        
         print("Selecting resolution...")
         for i in range(RETRY_LIMIT):
             try:
@@ -69,16 +74,15 @@ class YouTube(object):
         for i in range(RETRY_LIMIT):
             try:
                 self.driver.get(self.url)
-                time.sleep(0.3)
+                time.sleep(1)
                 movie_player = self.driver.find_element_by_id('movie_player')
                 self.hover = ActionChains(self.driver).move_to_element(movie_player)
+                break
             except Exception as e:
                 print("Encountered error while loading url...")
                 print(e)
                 if i == RETRY_LIMIT - 1:
                     print("Failed to load url. Skipping video...")
-                    # self.stop()
-                    # self.play()
                     return False
                 else:
                     time.sleep(0.1)
@@ -126,7 +130,7 @@ class YouTube(object):
                 time.sleep(max(0,INTERVAL - time_taken))
             return True
         except Exception as e:
-            print("Ecountered error",e)
+            print("Ecountered error while collecting stats", e)
             return False
 
     def get_current_seek(self):
@@ -149,6 +153,7 @@ class YouTube(object):
     def get_content_metadata(self):
         c = {
             'agent': self.config['agent'],
+            'tag': self.config['tag'],
             'content_id': self.get_video_id(),
             'content_provider': self.config['content_provider'],
             'content_resolution': self.resolution,
