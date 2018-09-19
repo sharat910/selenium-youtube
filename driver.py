@@ -84,5 +84,6 @@ def get_driver(config):
         driver = get_local_driver(config)
     else:
         print("Incorrect driver type in configuration.")
-    
+    driver.set_window_position(0, 0)
+    driver.set_window_size(config['width'],config['height'])
     return driver

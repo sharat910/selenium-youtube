@@ -1,12 +1,14 @@
-no_of_videos: 3
+no_of_videos: 200
 randomize: false
-video_list: 'test_videos.json'
-resolutions: ['360p','480p','720p HD','1080p HD']
+video_list: 'videos_with_res.json'
+resolutions: ['360p','480p','720p HD','1080p HD', 'Auto']
 
 driver:
   hub_url: 'http://localhost:4444/wd/hub'
   type: 'remote' #local or remote (browser in a container)
-  browser: 'chrome'
+  browser: 'chrome' #chrome or firefox
+  width: 1920
+  height: 1080
   adblock:
     enable: false
     file: 'adblock_plus-3.3.1-an+fx.xpi'
@@ -15,7 +17,8 @@ youtube:
   number_of_data_points: 360 #Collected every half a second
   agent: 'chrome'
   content_type: 'video'
-  content_provider: 'youtube/docker-test'
+  content_provider: 'youtube'
+  tag: 'test'
 
 flowfetch:
   enable: true
