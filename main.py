@@ -19,19 +19,29 @@ def get_video_list_json(config):
 def get_playable_resolutions(config_res,available_res):
     return list(set(config_res) & set(available_res))
 
+def play_with_res(url,res,config,f):
+    print("Launching browser...")
+    d = get_driver(config['driver'])
+    y = YouTube(url,res, d, config['youtube'], f)
+    y.play()
+    time.sleep(2)
+
 def play_one_video_all_resolutions(video):
     config = get_config()
     f = FFInteractor(config['flowfetch'])
     resolutions = get_playable_resolutions(config['resolutions'],video['resolutions'])
     print("Playing %s in" % (video['title']),resolutions)
     for res in resolutions:
-        print("Launching browser...")
-        d = get_driver(config['driver'])
-        y = YouTube(video['url'],res, d, config['youtube'], f)
-        y.play()
-        time.sleep(2)
+        play_with_res(video['url'],res,config,f)
 
 if __name__ == '__main__':
+    ###########testing##########
+    config = get_config()
+    f = FFInteractor(config['flowfetch'])
+    play_with_res("https://www.google.com=1","360p",config,f)
+    import sys
+    sys.exit()
+    ############################
     time.sleep(5)
     config = get_config()
     videos = get_video_list_json(config)
