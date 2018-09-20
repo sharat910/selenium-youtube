@@ -18,8 +18,9 @@ INTERVAL = 0.5
 
 class YouTube(object):
     """docstring for YouTube"""
-    def __init__(self, url, resolution, driver, config,flowfetch):
-        self.url = url
+    def __init__(self, video, resolution, driver, config,flowfetch):
+        self.url = video['url']
+        self.playback_seconds = self.get_sec_from_time_str(video['length'])
         self.resolution = resolution
         self.config = config
         self.flowfetch = flowfetch
@@ -27,6 +28,9 @@ class YouTube(object):
         
     def get_video_id(self):
         return self.url.split("=")[1]
+    
+    def get_sec_from_time_str(self,time_str):
+        return sum(x * int(t) for x, t in zip([1, 60, 3600], reversed(time_str.split(":"))))
 
     def load_video(self):
         print("Loading url...")
@@ -86,7 +90,7 @@ class YouTube(object):
     def collect_stats(self):
         try:
             stat_dict = self.create_new_stat_dict()
-            n = self.config['number_of_data_points']
+            n = min(2*self.playback_seconds, self.config['number_of_data_points']
             print("Started collecting... it'll take %d seconds." % (n/2))
             for i in range(n):
                 start = time.time()
