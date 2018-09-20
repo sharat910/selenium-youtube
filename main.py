@@ -19,10 +19,10 @@ def get_video_list_json(config):
 def get_playable_resolutions(config_res,available_res):
     return list(set(config_res) & set(available_res))
 
-def play_with_res(url,res,config,f):
+def play_with_res(video,res,config,f):
     print("Launching browser...")
     d = get_driver(config['driver'])
-    y = YouTube(url,res, d, config['youtube'], f)
+    y = YouTube(video,res, d, config['youtube'], f)
     y.play()
     time.sleep(2)
 
@@ -32,7 +32,7 @@ def play_one_video_all_resolutions(video):
     resolutions = get_playable_resolutions(config['resolutions'],video['resolutions'])
     print("Playing %s in" % (video['title']),resolutions)
     for res in resolutions:
-        play_with_res(video['url'],res,config,f)
+        play_with_res(video,res,config,f)
 
 if __name__ == '__main__':
     ###########testing##########

@@ -90,7 +90,7 @@ class YouTube(object):
     def collect_stats(self):
         try:
             stat_dict = self.create_new_stat_dict()
-            n = min(2*self.playback_seconds, self.config['number_of_data_points']
+            n = min(2*self.playback_seconds, self.config['number_of_data_points'])
             print("Started collecting... it'll take %d seconds." % (n/2))
             for i in range(n):
                 start = time.time()
