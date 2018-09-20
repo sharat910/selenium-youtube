@@ -36,11 +36,11 @@ def play_one_video_all_resolutions(video):
 
 if __name__ == '__main__':
     ###########testing##########
-    config = get_config()
-    f = FFInteractor(config['flowfetch'])
-    play_with_res("https://www.google.com=1","360p",config,f)
-    import sys
-    sys.exit()
+    # config = get_config()
+    # f = FFInteractor(config['flowfetch'])
+    # play_with_res("https://www.google.com=1","360p",config,f)
+    # import sys
+    # sys.exit()
     ############################
     time.sleep(5)
     config = get_config()

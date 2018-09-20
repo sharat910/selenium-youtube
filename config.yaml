@@ -1,7 +1,8 @@
-no_of_videos: 200
+no_of_videos: 10
 randomize: false
-video_list: 'videos_with_res.json'
-resolutions: ['360p','480p','720p HD','1080p HD', 'Auto']
+video_list: 'trending_videos.json'
+resolutions: ['360p','480p','720p HD','1080p HD', '720p60 HD', '1080p60 HD', 'Auto']
+#resolutions: ['Auto']
 
 driver:
   hub_url: 'http://localhost:4444/wd/hub'
@@ -18,10 +19,10 @@ youtube:
   agent: 'chrome'
   content_type: 'video'
   content_provider: 'youtube'
-  tag: 'test'
+  tag: '<test-tag>'
 
 flowfetch:
-  enable: true
+  enable: true 
   start_url: "http://localhost:8080/start"
   stop_url: "http://localhost:8080/stop"
   video_stat_url: "http://localhost:8080/video_stat"

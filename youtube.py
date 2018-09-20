@@ -45,8 +45,12 @@ class YouTube(object):
         sb = self.driver.find_element_by_css_selector('.ytp-button.ytp-settings-button')
         sb.click()
         time.sleep(0.3)
-        elem = self.driver.find_element_by_css_selector('div.ytp-menuitem:nth-child(5) > div:nth-child(1)')
-        elem.click()
+        try:
+            elem = self.driver.find_element_by_css_selector('div.ytp-menuitem:nth-child(5) > div:nth-child(1)')
+            elem.click()
+        except:
+            elem = self.driver.find_element_by_css_selector('div.ytp-menuitem:nth-child(4) > div:nth-child(1)')
+            elem.click()
         time.sleep(1)
         res = self.driver.find_elements_by_class_name("ytp-menuitem-label")
         for item in res:
@@ -72,6 +76,13 @@ class YouTube(object):
                 return True
         return False 
 
+    def get_stats(self,stat_dict):
+        stat_dict['Timestamp'] = str(datetime.now())
+        stat_dict['Current Seek'] = self.get_current_seek()
+        for div_id in DIVS:
+            elem = self.driver.find_element_by_css_selector(".html5-video-info-panel-content > div:nth-child(%d) > span:nth-child(2)"%div_id)
+            stat_dict[DIV_TO_KEY[div_id]] = elem.text
+
     def collect_stats(self):
         try:
             stat_dict = self.create_new_stat_dict()
@@ -79,14 +90,10 @@ class YouTube(object):
             print("Started collecting... it'll take %d seconds." % (n/2))
             for i in range(n):
                 start = time.time()
-                stat_dict['Timestamp'] = str(datetime.now())
-                if i % 4 == 0:
+                if i % 2 == 0:
                     self.hover.perform()
-                stat_dict['Current Seek'] = self.get_current_seek()
-                for div_id in DIVS:
-                    elem = self.driver.find_element_by_css_selector(".html5-video-info-panel-content > div:nth-child(%d) > span:nth-child(2)"%div_id)
-                    stat_dict[DIV_TO_KEY[div_id]] = elem.text
-                #pprint(stat_dict)
+                self.get_stats(stat_dict)
+                stat_dict['Ad'] = False
                 self.flowfetch.post_video_stat(stat_dict)
                 time_taken = time.time()-start
                 #print("Time taken",time_taken)
@@ -94,6 +101,26 @@ class YouTube(object):
             return True
         except Exception as e:
             print("Ecountered error while collecting stats", e)
+            return False
+
+    def collect_stats_for_ad(self):
+        try:
+            print("Collecting stats for ads...")
+            stat_dict = self.create_new_stat_dict()
+            i = 0
+            while(self.ad_present()):
+                start = time.time()
+                if i % 2 == 0:
+                    self.hover.perform()
+                self.get_stats(stat_dict)
+                stat_dict['Ad'] = True
+                self.flowfetch.post_video_stat(stat_dict)
+                time_taken = time.time()-start
+                time.sleep(max(0,INTERVAL - time_taken))
+                i += 1
+        except Exception as e:
+            print("Unable to collect stats for ads")
+            print(e)
             return False
 
     def get_current_seek(self):
@@ -136,6 +163,10 @@ class YouTube(object):
             self.stop(False)
             return
 
+        if self.ad_present():
+            print("Ad playing...")
+            self.collect_stats_for_ad()
+
         if not self.select_resolution():
             self.stop(False)
             return
@@ -151,3 +182,11 @@ class YouTube(object):
         print("Stopping flowfetch...")
         self.flowfetch.stop(success)
         print("Done\n\n")
+
+    def ad_present(self):
+        try:
+            self.driver.find_element_by_class_name("videoAdUi")
+            return True
+        except Exception as e:
+            print(e)
+            return False

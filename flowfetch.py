@@ -1,3 +1,4 @@
+from pprint import pprint
 import requests
 
 class FFInteractor(object):
@@ -28,3 +29,6 @@ class FFInteractor(object):
         if self.config['enable'] and self.started:
             url = self.config['video_stat_url']
             requests.post(url,json=data)
+        else:
+            print("Flow fetch post")
+            #pprint(data)
