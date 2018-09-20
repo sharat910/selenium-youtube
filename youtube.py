@@ -188,5 +188,4 @@ class YouTube(object):
             self.driver.find_element_by_class_name("videoAdUi")
             return True
         except Exception as e:
-            print(e)
             return False
