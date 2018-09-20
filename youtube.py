@@ -10,10 +10,11 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+from decorators import retry
+
 DIVS = [1,2,3,4,5,9,10,11,12,15]
 DIV_TO_KEY = {}
 INTERVAL = 0.5
-RETRY_LIMIT = 5
 
 class YouTube(object):
     """docstring for YouTube"""
@@ -27,6 +28,12 @@ class YouTube(object):
     def get_video_id(self):
         return self.url.split("=")[1]
 
+    def load_video(self):
+        print("Loading url...")
+        self.driver.get(self.url)
+        return True
+
+    @retry
     def select_resolution(self):
         # Don't bother selecting resolution for Auto
         if self.resolution == 'Auto':
@@ -34,80 +41,36 @@ class YouTube(object):
             return True
         
         print("Selecting resolution...")
-        for i in range(RETRY_LIMIT):
-            try:
-                if i != 0:
-                    print("Trying again...")
-                time.sleep(0.2)
-                sb = self.driver.find_element_by_css_selector('.ytp-button.ytp-settings-button')
-                sb.click()
-                time.sleep(0.3)
-                elem = self.driver.find_element_by_css_selector('div.ytp-menuitem:nth-child(5) > div:nth-child(1)')
-                elem.click()
-                break
-            except Exception as e:
-                print("Resolution selection got error",e)
-                if i == RETRY_LIMIT-1:
-                    print("Failed to select resolution. Skipping video...")
-                    # self.stop()
-                    # self.play()
-                    return False
-                time.sleep(0.2)
-
+        time.sleep(0.2)
+        sb = self.driver.find_element_by_css_selector('.ytp-button.ytp-settings-button')
+        sb.click()
+        time.sleep(0.3)
+        elem = self.driver.find_element_by_css_selector('div.ytp-menuitem:nth-child(5) > div:nth-child(1)')
+        elem.click()
         time.sleep(1)
-        try:
-            res = self.driver.find_elements_by_class_name("ytp-menuitem-label")
-            for item in res:
-                #print(item.text)
-                if item.text == self.resolution:
-                    item.click()
-                    print("Selected", self.resolution)
-                    return True
-        except:
-            print("Encountered error",e)
-
-        print("Unable to select resolution", self.resolution)
+        res = self.driver.find_elements_by_class_name("ytp-menuitem-label")
+        for item in res:
+            #print(item.text)
+            if item.text == self.resolution:
+                item.click()
+                print("Selected", self.resolution)
+                return True
         return False
 
-    def get_video_and_enable_stats(self):
-        print("Loading url...")
-        for i in range(RETRY_LIMIT):
-            try:
-                self.driver.get(self.url)
-                time.sleep(1)
-                movie_player = self.driver.find_element_by_id('movie_player')
-                self.hover = ActionChains(self.driver).move_to_element(movie_player)
-                break
-            except Exception as e:
-                print("Encountered error while loading url...")
-                print(e)
-                if i == RETRY_LIMIT - 1:
-                    print("Failed to load url. Skipping video...")
-                    return False
-                else:
-                    time.sleep(0.1)
-                    continue
-        return self.enable_stats(movie_player)
-
-    def enable_stats(self,movie_player):
-        enabled = False
-        for i in range(RETRY_LIMIT):
-            if not enabled:
-                ActionChains(self.driver).context_click(movie_player).perform()
-                options = self.driver.find_elements_by_class_name('ytp-menuitem')
-                for option in options:
-                    option_child = option.find_element_by_class_name('ytp-menuitem-label')
-                    if option_child.text == 'Stats for nerds':
-                        option_child.click()
-                        enabled = True
-                        print("Enabled stats collection.")
-                        return enabled
-                if not enabled:
-                    print("Still not enabled!")
-                    time.sleep(1)
-                else:
-                    break
-        return enabled 
+    @retry
+    def enable_stats(self):
+        movie_player = self.driver.find_element_by_id('movie_player')
+        self.hover = ActionChains(self.driver).move_to_element(movie_player)
+        self.hover.perform()
+        ActionChains(self.driver).context_click(movie_player).perform()
+        options = self.driver.find_elements_by_class_name('ytp-menuitem')
+        for option in options:
+            option_child = option.find_element_by_class_name('ytp-menuitem-label')
+            if option_child.text == 'Stats for nerds':
+                option_child.click()
+                print("Enabled stats collection.")
+                return True
+        return False 
 
     def collect_stats(self):
         try:
@@ -165,7 +128,11 @@ class YouTube(object):
         print("Starting flowfetch...")
         self.flowfetch.start(self.get_content_metadata())
         time.sleep(2)
-        if not self.get_video_and_enable_stats():
+        if not self.load_video():
+            self.stop(False)
+            return
+
+        if not self.enable_stats():
             self.stop(False)
             return
 
