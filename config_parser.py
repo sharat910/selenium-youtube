@@ -1,4 +1,5 @@
 import os
+import sys
 from datetime import datetime
 from yaml import load, dump
 try:
@@ -10,9 +11,11 @@ except ImportError:
 def get_config():
     with open("config.yaml") as f:
         config = load(f,Loader=Loader)
-    auto_tag(config)
+    tag(config)
     return config
 
-def auto_tag(config):
+def tag(config):
     if config['youtube']['tag'] == '<test-tag>':
-        config['youtube']['tag'] = "%s-%s" % (os.getlogin(), str(datetime.now()))
+        print("Tag not set!!!")
+        sys.exit()
+        #config['youtube']['tag'] = "%s-%s" % (os.getlogin(), str(datetime.now()))
