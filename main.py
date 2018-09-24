@@ -46,4 +46,3 @@ if __name__ == '__main__':
     s = min(len(videos),config['starting_index'])
     for video in videos[s:n]:
         play_one_video_all_resolutions(config, video)
-        break
