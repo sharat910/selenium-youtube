@@ -167,6 +167,7 @@ class YouTube(object):
             self.stop(False)
             return
 
+        #Ads load a little late in chrome
         if self.config['agent'] == 'chrome':
             time.sleep(1)
 

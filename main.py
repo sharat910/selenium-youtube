@@ -24,8 +24,7 @@ def play_with_res(video,res,config,f):
     y.play()
     time.sleep(2)
 
-def play_one_video_all_resolutions(video):
-    config = get_config()
+def play_one_video_all_resolutions(config, video):
     f = FFInteractor(config['flowfetch'])
     resolutions = get_playable_resolutions(config,video['url'])
     print("Playing %s in" % (video['title']),resolutions)
@@ -46,5 +45,5 @@ if __name__ == '__main__':
     n = min(len(videos),config['no_of_videos'])
     s = min(len(videos),config['starting_index'])
     for video in videos[s:n]:
-        play_one_video_all_resolutions(video)
+        play_one_video_all_resolutions(config, video)
         break
