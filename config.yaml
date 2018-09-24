@@ -1,12 +1,26 @@
 no_of_videos: 10
+starting_index: 0
 randomize: false
-video_list: 'trending_videos.json'
-resolutions: ['360p','480p','720p HD','1080p HD', '720p60 HD', '1080p60 HD', 'Auto']
+video_list: 'videos/4k_videos.json'
+resolutions:
+  - 'Auto' 
+  - '360p'
+  - '480p'
+  - '720p HD'
+  - '1080p HD'
+  - '1440p HD'
+  - '2160p HD'
+  - '4320p HD'
+  - '720p60 HD' 
+  - '1080p60 HD'
+  - '1440p60 HD'
+  - '2160p60 4K'
+  - '4320p60 8K'
 #resolutions: ['Auto']
 
 driver:
   hub_url: 'http://localhost:4444/wd/hub'
-  type: 'remote' #local or remote (browser in a container)
+  type: 'local' #local or remote (browser in a container)
   browser: 'chrome' #chrome or firefox
   width: 1920
   height: 1080
@@ -15,14 +29,14 @@ driver:
     file: 'adblock_plus-3.3.1-an+fx.xpi'
 
 youtube:
-  number_of_data_points: 360 #Collected every half a second
+  number_of_data_points: 120 #Collected every half a second
   agent: 'chrome'
   content_type: 'video'
   content_provider: 'youtube'
   tag: '<test-tag>'
 
 flowfetch:
-  enable: true 
+  enable: false 
   start_url: "http://localhost:8080/start"
   stop_url: "http://localhost:8080/stop"
   video_stat_url: "http://localhost:8080/video_stat"

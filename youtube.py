@@ -167,6 +167,9 @@ class YouTube(object):
             self.stop(False)
             return
 
+        if self.config['agent'] == 'chrome':
+            time.sleep(1)
+
         if self.ad_present():
             print("Ad playing...")
             self.collect_stats_for_ad()

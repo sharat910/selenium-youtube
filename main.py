@@ -4,6 +4,7 @@ from youtube import YouTube
 from config_parser import get_config
 from flowfetch import FFInteractor
 from driver import get_driver
+from resolutions import get_playable_resolutions
 import json
 
 def get_video_list(config):
@@ -16,9 +17,6 @@ def get_video_list_json(config):
         videos = json.load(f)
     return videos
 
-def get_playable_resolutions(config_res,available_res):
-    return list(set(config_res) & set(available_res))
-
 def play_with_res(video,res,config,f):
     print("Launching browser...")
     d = get_driver(config['driver'])
@@ -29,7 +27,7 @@ def play_with_res(video,res,config,f):
 def play_one_video_all_resolutions(video):
     config = get_config()
     f = FFInteractor(config['flowfetch'])
-    resolutions = get_playable_resolutions(config['resolutions'],video['resolutions'])
+    resolutions = get_playable_resolutions(config,video['url'])
     print("Playing %s in" % (video['title']),resolutions)
     for res in resolutions:
         play_with_res(video,res,config,f)
@@ -46,5 +44,7 @@ if __name__ == '__main__':
     config = get_config()
     videos = get_video_list_json(config)
     n = min(len(videos),config['no_of_videos'])
-    for video in videos[:n]:
+    s = min(len(videos),config['starting_index'])
+    for video in videos[s:n]:
         play_one_video_all_resolutions(video)
+        break
