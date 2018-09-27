@@ -86,4 +86,5 @@ def get_driver(config):
         print("Incorrect driver type in configuration.")
     driver.set_window_position(0, 0)
     driver.set_window_size(config['width'],config['height'])
+    driver.set_page_load_timeout(config['page_load_timeout'])
     return driver
